@@ -1,5 +1,7 @@
 package test.web.rest;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +40,19 @@ public class ActorResource {
 	@RequestMapping(value="/actor/{id}", method=RequestMethod.DELETE)
 	public void deleteActor(@PathVariable("id") Long id){
 		Actor actor= actorRepository.findOne(id);
-		String actorName = actor.getFirstName();
 		actorRepository.delete(actor);
-		log.info("|DELETED| " + actorName);
+		log.info("|DELETED|");
 	}
+	
+	@RequestMapping(value="/actor/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Actor> getMovie(@PathVariable Long id){
+		Actor actor = actorRepository.findOne(id);
+		return new ResponseEntity<Actor>(actor, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/movie/{id}/actors", method=RequestMethod.GET)
+	public ResponseEntity<List<Actor>> getActorsWhoActedInMovie(@PathVariable("id") Long movieId){
+		List<Actor> actors = actorRepository.getActorsInMovie(movieId);
+		return new ResponseEntity<List<Actor>>(actors, HttpStatus.OK);
+	}	
 }

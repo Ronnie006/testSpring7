@@ -16,11 +16,9 @@ public class Movie {
 	private String title;
 	private int released;
 	
-	@Relationship(type="ACTED_IN", direction="INCOMING")
+	@Relationship(type="ACTED_IN", direction=Relationship.UNDIRECTED)
 	private Set<Actor> actor = new HashSet<Actor>();
 	
-//	@Relationship(type="ACTED_IN", direction="INCOMING")
-//	private List<Actor> actors;
 	
 	public Movie(){}
 	
@@ -48,15 +46,6 @@ public class Movie {
 	public void setReleased(int released) {
 		this.released = released;
 	}
-	
-//	public List<Actor> getActors() {
-//		return actors;
-//	}
-//
-//	public void setActors(List<Actor> actors) {
-//		this.actors = actors;
-//	}
-	
 	
 	public Set<Actor> getActor() {
 		return actor;

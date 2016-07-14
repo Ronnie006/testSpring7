@@ -1,6 +1,5 @@
 package test.web.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -45,6 +44,18 @@ public class MovieResource {
 		String movieTitle = movie.getTitle();
 		movieRepository.delete(movie);
 		log.info("|DELETED| " + movieTitle);
+	}
+	
+	@RequestMapping(value="/movie/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Movie> getMovie(@PathVariable Long id){
+		Movie movie = movieRepository.findOne(id);
+		return new ResponseEntity<Movie>(movie, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/actor/{id}/movies", method=RequestMethod.GET)
+	public ResponseEntity<List<Movie>> getMoviesThatActedByActor(@PathVariable("id") Long actorId){
+		List<Movie> movies= movieRepository.getMoviesByActor(actorId);
+		return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
 	}
 
 }
